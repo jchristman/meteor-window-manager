@@ -65,4 +65,6 @@ WindowManager.configure({
     default_tabs : [ "test-tab1", "test-tab2", "test-tab3", "test-tab4" ]
 });
 
-WindowManager.init();
+WindowManager.init({
+    LOGGING_LEVEL : 0
+});

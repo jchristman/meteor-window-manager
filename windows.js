@@ -4,7 +4,10 @@ if (Meteor.isClient) {
     // -------------------- //
     Template.windows.helpers({
         windows : function() {
-            //WindowManager.user_window_profile().windows;
+            try {
+                return WindowManager.getUserWindowProfile().windows;
+            } catch (e) {}
+            return undefined;
         }
     });
 
