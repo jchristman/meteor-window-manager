@@ -8,7 +8,12 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.0');
 
+  api.use('jquery');
+  api.use('underscore');
   api.use('jchristman:context-menu@1.0.0');
 
   api.addFiles('window-manager.js');
+  api.export([
+        'WindowManager'
+  ], ['client','server']); 
 });

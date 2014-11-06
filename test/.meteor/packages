@@ -7,4 +7,5 @@ meteor-platform
 autopublish
 insecure
 jchristman:window-manager
+jquery
 

@@ -1,9 +1,13 @@
-WM = function() {
+WMCollection = new Meteor.Collection('WMCollection');
 
+WM = function() {
+    
 }
 
 WM.prototype.configure = function(settings) {
-
+    default_window_profile = WMCollection.findOne({username : 'default'});
+    if (typeof default_window_profile == 'undefined')
+        WMCollection.insert(_.extend({username : 'default'}, settings));
 }
 
 WM.prototype.init = function() {
