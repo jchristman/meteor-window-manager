@@ -4,8 +4,8 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
-jchristman:window-manager
 jquery
-
+mizzao:bootstrap-3
+jchristman:window-manager
+accounts-password
+accounts-ui

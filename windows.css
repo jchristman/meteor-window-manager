@@ -30,4 +30,5 @@
     background-color: white;
 }
 
-.draggingTab a:link, .tomato a:visited, .tomato a:hover, .tomato a:active { color:black; }
+/* TODO: Remove this */
+/*.draggingTab a:link, .tomato a:visited, .tomato a:hover, .tomato a:active { color:black; }*/

@@ -1,17 +1,43 @@
-WMCollection = new Meteor.Collection('WMCollection');
-
 WM = function() {
     
 }
 
 WM.prototype.configure = function(settings) {
-    default_window_profile = WMCollection.findOne({username : 'default'});
-    if (typeof default_window_profile == 'undefined')
-        WMCollection.insert(_.extend({username : 'default'}, settings));
+    if (Meteor.isServer) {
+        default_window_profile = WMCollection.findOne({'default' : 'profile'});
+        if (typeof default_window_profile == 'undefined')
+            WMCollection.insert(_.extend({'default' : 'profile'}, settings));
+    }
 }
 
 WM.prototype.init = function() {
-    
+
+}
+
+WM.prototype.getUserWindowProfile = function(user) {
+    if (user == undefined)
+        user = Meteor.user();
+    if (user && WMCollectionSubscription.ready()) { // Check if the user is logged in and the collection ready
+        return getOrCreateUserWindowProfile(user);
+    }    
+
+    return undefined;
+}
+
+WM.prototype.getOrCreateUserWindowProfile = function(user) {
+    user_window_profile = WMCollection.findOne({'username' : user.username});
+    if (user_window_profile == undefined)
+        return this.createUserWindowProfile(user);
+    return user_window_profile;
+}
+
+WM.prototype.createUserWindowProfile = function(user) {
+    var default_window_profile = WMCollection.findOne({'default' : 'profile'});
+    delete default_window_profile._id;
+    delete default_window_profile.default;
+    WMCollection.insert(_.extend({'username' : user.username}, default_window_profile));
+
+    return WMCollection.findOne({'username' : user.username});
 }
 
 WM.prototype.Window = function(_id, _title, _dimensions) {
@@ -39,3 +65,9 @@ function WMException(message) {
 }
 
 WindowManager = new WM();
+
+if (Meteor.isServer) {
+    Accounts.onLogin(function(attempt) {
+        WindowManager.getOrCreateUserWindowProfile(attempt.user); // Make sure the profile exists
+    });
+}

@@ -1,5 +1,10 @@
-<template name="window">
+<template name="windows">
+    {{#each windows}}
+        {{> window}}
+    {{/each}}
+</template>
 
+<template name="window">
 <div class="window windowname_default default" id={{window_id}} style="z-index: 11; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
     <div class="windowtitlebar">
         <img src="/favicon.ico" width="16" height="16" class="titlebaricon">
@@ -47,8 +52,4 @@
     <div class="resizer-bl"></div>
     <div class="resizer-l"></div>
 </div>
-
 </template>
-
-
-
