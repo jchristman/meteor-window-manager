@@ -3,18 +3,28 @@
 </head>
 
 <body>
-  <h1>Test</h1>
-
   {{> test}}
 </body>
 
 <template name="test">
 
 {{#if currentUser}}
-    You are logged in {{currentUser.username}}
     {{> windows}}
 {{else}}
     {{> loginButtons}}
 {{/if}}
 
+</template>
+
+<template name="test_template1">
+    Test content 1!
+</template>
+<template name="test_template2">
+    Test content 2!
+</template>
+<template name="test_template3">
+    Test content 3!
+</template>
+<template name="test_template4">
+    Test content 4!
 </template>

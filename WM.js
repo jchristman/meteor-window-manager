@@ -168,7 +168,7 @@
       var p = getPos(w);
       p.top -= p.parentTop;
       p.left -= p.parentLeft;
-      // jrc: updated to include the fact that the windows are now positioned in the middle div and don't need to worry about width of bars
+      console.log(p, w);
       if (p.top < 0) // top bound
         w.css('top',0);
       if (p.top + w.height() > p.parentH) // bottom bound

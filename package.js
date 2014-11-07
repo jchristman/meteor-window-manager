@@ -11,17 +11,20 @@ Package.onUse(function(api) {
   api.use('accounts-base',['client','server']);
   api.use('underscore');
   api.use('templating', 'client');
+  api.use('jquery','client');
+  api.use('mizzao:jquery-ui','client')
   api.use('jchristman:context-menu@1.0.0','client');
 
   api.addFiles([
-      'window-manager.js',
-      'window-manager-collection.js',
+      'WindowManager.js',
+      'WMCollection.js',
   ],['client','server']);
 
   api.addFiles([
-      'windows.html',
-      'windows.js',
-      'windows.css'
+      'WindowsTemplates.html',
+      'WindowsTemplates.js',
+      'WM.js',
+      'style.css'
   ],['client']);
 
   api.export([

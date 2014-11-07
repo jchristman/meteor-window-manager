@@ -1,0 +1,62 @@
+<template name="windows">
+    {{#each windows}}
+        {{> window}}
+    {{/each}}
+</template>
+
+<template name="window">
+<div class="window{{#if isActive}} focused{{/if}} " id={{id}} style="z-index: 11; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
+    <div class="windowtitlebar">
+        <img src="/favicon.ico" width="16" height="16" class="titlebaricon">
+        <div class="titlebartext">{{title}}</div>
+        <div class="horizbuts">
+            <div class="minimizebut" title="minimize"></div>
+            <div class="restorebut" title="restore"></div>
+            <div class="maximizebut" title="maximize"></div>
+            <div class="closebut" title="close"></div>
+        </div>
+    </div>
+    <div class="windowcontent panel with-nav-tabs panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                {{#with tabs id}}
+                    {{#each windowTabs}}
+                        {{> tab_head}}
+                    {{/each}}
+                {{/with}}
+                <li id="head_{{id}}"><a href="#new_tab_{{id}}" role="tab" data-toggle="tab">+</a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                {{#with tabs id}}
+                    {{#each windowTabs}}
+                        {{> tab_body}}
+                    {{/each}}
+                {{/with}}
+                <div class="tab-pane" id="new_tab_{{id}}">New Tab</div>
+            </div>
+        </div>
+    </div>
+    <div class="resizer-tl"></div>
+    <div class="resizer-t"></div>
+    <div class="resizer-tr"></div>
+    <div class="resizer-r"></div>
+    <div class="resizer-br"></div>
+    <div class="resizer-b"></div>
+    <div class="resizer-bl"></div>
+    <div class="resizer-l"></div>
+</div>
+</template>
+
+<template name="tab_head">
+    <li class="draggableTab{{#if isActive}} active{{/if}}" id="head_{{id}}"><a href="#{{id}}" role="tab" data-toggle="tab">{{title}}</a></li>
+</template>
+
+<template name="tab_body">
+    <div class="tab-pane{{#if isActive}} active{{/if}}" id={{id}}>
+        {{#with tabContentContext id}}
+            {{> tabTemplate}}
+        {{/with}}
+    </div>
+</template>
