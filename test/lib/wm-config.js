@@ -3,29 +3,32 @@ WindowManager.configure({
         {
             id : "test1", 
             title : "Test Title 1",
-            active : true,
+            focused : true,
             top : "0%", 
             left : "0%", 
             width : "50%", 
-            height : "50%"
+            height : "50%",
+            zIndex : 3
         },
         {
             id : "test2", 
             title : "Test Title 2",
-            active : false,
+            focused : false,
             top : "0%", 
             left : "50%", 
             width : "50%", 
-            height : "50%"
+            height : "50%",
+            zIndex : 2
         },
         {
             id : "test3", 
             title : "Test Title 3",
-            active : false,
+            focused : false,
             top : "50%", 
             left : "0%", 
             width : "100%", 
-            height : "50%"
+            height : "50%",
+            zIndex : 1
         }
     ],
 

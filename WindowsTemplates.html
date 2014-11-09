@@ -5,7 +5,7 @@
 </template>
 
 <template name="window">
-<div class="window{{#if isActive}} focused{{/if}} " id={{id}} style="z-index: 11; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
+<div class="window{{#if isFocused}} focused{{/if}} " id={{id}} style="z-index: {{zIndex}}; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
     <div class="windowtitlebar">
         <img src="/favicon.ico" width="16" height="16" class="titlebaricon">
         <div class="titlebartext">{{title}}</div>

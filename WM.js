@@ -1,12 +1,12 @@
-/*jquery.WM.js - Window Manager for jQuery.
+/* A custom version of jQuery WM system, written by:
  * Copyright (c) 2009 Philip Collins
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
  */
 (function($){
-  var $win,lastMouseX,lastMouseY,zIndex=10,minH,minW=160,newWinOffset=50;
 
-  var isIE = navigator.userAgent.match(/MSIE/);
+
+  var $win,lastMouseX,lastMouseY,zIndex=10,minH,minW=160,newWinOffset=50;
 
   var template = '<div class=window><div class=windowtitlebar><img src=/favicon.ico width=16 height=16 class=titlebaricon><div class=titlebartext></div><div class=horizbuts><div class=minimizebut title=minimize></div><div class=restorebut title=restore></div><div class=maximizebut title=maximize></div><div class=closebut title=close></div></div></div><div class=windowcontent></div><div class=resizer-tl></div><div class=resizer-t></div><div class=resizer-tr></div><div class=resizer-r></div><div class=resizer-br></div><div class=resizer-b></div><div class=resizer-bl></div><div class=resizer-l></div></div>';
 
@@ -168,7 +168,6 @@
       var p = getPos(w);
       p.top -= p.parentTop;
       p.left -= p.parentLeft;
-      console.log(p, w);
       if (p.top < 0) // top bound
         w.css('top',0);
       if (p.top + w.height() > p.parentH) // bottom bound

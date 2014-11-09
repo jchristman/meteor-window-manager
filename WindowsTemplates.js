@@ -18,11 +18,11 @@ if (Meteor.isClient) {
     //     Windows code     //
     // -------------------- //
     Template.window.rendered = function() {
+        var data = this.data;
         $(this.findAll('.window')).each(function(index, element) {
+            element = $(element);
             registerDroppable(element);
-
-            $('.wm-bottom').zIndex(100000000);
-            $().WM('register', element);
+            WindowManager.registerWindow(element, data);
         });
     }
 
@@ -37,8 +37,8 @@ if (Meteor.isClient) {
             return undefined;
         },
 
-        isActive : function() {
-            return this.active;
+        isFocused : function() {
+            return this.focused;
         }
     });
 
@@ -96,7 +96,6 @@ if (Meteor.isClient) {
                     var uwp = WindowManager.getUserWindowProfile();
 
                     // We are now ready to update. Let's deactivate the active tab in the other window
-                    console.log('#' + new_window_id);
                     $('#' + new_window_id).find('.active').each(function(index, element) {
                         element = $(element);
                         

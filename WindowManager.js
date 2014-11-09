@@ -1,5 +1,6 @@
 WM = function() {
-    this.LOGGING_LEVEL = 5;
+    this.windows = [];
+    this.focused_window = undefined;
 }
 
 WM.prototype.configure = function(settings) {
@@ -11,7 +12,6 @@ WM.prototype.configure = function(settings) {
 
         default_window_profile = WMCollection.findOne({'default' : 'profile'});
         if (typeof default_window_profile == 'undefined') {
-            this.LOG(LOGGING.INFO, "Default profile does not exist. Creating according to settings.");
             WMCollection.insert(_.extend({'default' : 'profile'}, settings));
         }
     }
@@ -19,7 +19,6 @@ WM.prototype.configure = function(settings) {
 
 WM.prototype.init = function(settings) {
     if (settings != undefined) {
-        if (settings.hasOwnProperty('LOGGING_LEVEL')) this.LOGGING_LEVEL = settings.LOGGING_LEVEL;
     }
 }
 
@@ -29,7 +28,6 @@ WM.prototype.getUserWindowProfile = function(user) {
     if (user && WMCollectionSubscription.ready()) { // Check if the user is logged in and the collection ready
         return this.getOrCreateUserWindowProfile(user);
     } else {
-        this.LOG(LOGGING.WARN, "User not logged in or WMCollection not fully transferred");
         throw new WMException("User not logged in or WMCollection not fully transferred");
     }
 
@@ -39,7 +37,6 @@ WM.prototype.getUserWindowProfile = function(user) {
 WM.prototype.getOrCreateUserWindowProfile = function(user) {
     var uwp = WMCollection.findOne({'username' : user.username});
     if (uwp == undefined) {
-        this.LOG(LOGGING.INFO, "User window profile does not exist. Creating now.");
         return this.createUserWindowProfile(user);
     }
     return uwp;
@@ -50,7 +47,6 @@ WM.prototype.createUserWindowProfile = function(user) {
     delete default_window_profile._id;
     delete default_window_profile.default;
     WMCollection.insert(_.extend({'username' : user.username}, default_window_profile));
-    this.LOG(LOGGING.INFO, "Created user window profile");
 
     return WMCollection.findOne({'username' : user.username});
 }
@@ -84,17 +80,41 @@ WM.prototype.getTabs = function(window_id) {
     return tabs;
 }
 
+WM.prototype.getWindowById = function(uwp, window_id) {
+    return _.find(uwp.windows, function(window) {
+        if (window.id == window_id)
+            return window;
+    });
+}
+
+WM.prototype.getWindowByIdWithIndex = function(uwp, window_id) {
+    ret = {}
+    ret.window = _.find(uwp.windows, function(window, index) {
+        if (window.id == window_id) {
+            ret.index = index;
+            return window;
+        }
+    });
+    return ret;
+}
+
+WM.prototype.updateWindow = function(new_window) {
+    var uwp = this.getUserWindowProfile();
+    var windowWithIndex = this.getWindowByIdWithIndex(uwp, new_window.id);
+    var update = {}
+    var key = "windows." + windowWithIndex.index;
+    update[key] = new_window;
+
+    WMCollection.update(uwp._id, {
+        $set : update
+    });
+}
+
 WM.prototype.getTabById = function(uwp, tab_id) {
     return _.find(uwp.tabs, function(tab) {
         if (tab.id == tab_id)
             return tab;
     });
-}
-
-WM.prototype.getTabContent = function(tab_id) {
-    var uwp = this.getUserWindowProfile();
-    var tab = this.getTabById(uwp, tab_id);
-    return Template[tab.template];
 }
 
 WM.prototype.getTabByIdWithIndex = function(uwp, tab_id) {
@@ -108,27 +128,59 @@ WM.prototype.getTabByIdWithIndex = function(uwp, tab_id) {
     return ret;
 }
 
+WM.prototype.getTabContent = function(tab_id) {
+    var uwp = this.getUserWindowProfile();
+    var tab = this.getTabById(uwp, tab_id);
+    return Template[tab.template];
+}
+
 WM.prototype.updateTab = function(new_tab) {
     var uwp = this.getUserWindowProfile();
     var tabWithIndex = this.getTabByIdWithIndex(uwp, new_tab.id);
     var update = {}
     var key = "tabs." + tabWithIndex.index;
     update[key] = new_tab;
-    this.LOG(LOGGING.INFO, "Updating tab: " + JSON.stringify(update));
 
     WMCollection.update(uwp._id, {
         $set : update
     });
 }
 
-WM.prototype.LOG = function(level, message) {
-    if (this.LOGGING_LEVEL <= level)
-        if (level == LOGGING.ERROR)
-            console.error(LOGGING[level] + ': ' + message);
-        else if (level == LOGGING.WARN)
-            console.warn(LOGGING[level] + ': ' + message);
-        else
-            console.log(LOGGING[level] + ': ' + message);
+WM.prototype.registerWindow = function(element, data) {
+    var new_window = new WMWindow(element, this, data);
+    this.windows.push(new_window);
+    if (data.focused) this.focused_window = new_window;
+}
+
+WM.prototype.grabFocus = function(wm_window) {
+    self = this;
+
+    if (this.focused_window != wm_window) {
+        var uwp = this.getUserWindowProfile();
+
+        var focused_window = this.getWindowById(uwp, this.focused_window.id);
+        focused_window.focused = false;
+        this.updateWindow(focused_window);
+
+        var new_focused_window = this.getWindowById(uwp, wm_window.id);
+        new_focused_window.focused = true;
+        new_focused_window.zIndex = focused_window.zIndex + 1;
+
+        if (new_focused_window.zIndex > 1000) {
+            new_focused_window.zIndex = 10;
+            $(this.windows).not(wm_window).each(function(index, arr_wm_window) {
+                if (arr_wm_window != wm_window) {
+                    var window_to_update = self.getWindowById(uwp, arr_wm_window.id);
+                    window_to_update.zIndex = 9;
+                    self.updateWindow(window_to_update);
+                }
+            });
+        }
+
+        this.updateWindow(new_focused_window);
+
+        this.focused_window = new_focused_window;
+    }
 }
 
 WMException = function (message) {
@@ -145,16 +197,3 @@ if (Meteor.isServer) {
         return attempt.allowed;
     });
 }
-
-// Log if the LOGGING_LEVEL <= LOGGING number
-var LOGGING = {
-    DEBUG : 1,
-    INFO : 2,
-    WARN : 3,
-    ERROR : 4,
-    1 : 'DEBUG',
-    2 : 'INFO',
-    3 : 'WARN',
-    4 : 'ERROR'
-}
-

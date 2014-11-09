@@ -23,7 +23,7 @@ Package.onUse(function(api) {
   api.addFiles([
       'WindowsTemplates.html',
       'WindowsTemplates.js',
-      'WM.js',
+      'Window.js',
       'style.css'
   ],['client']);
 
