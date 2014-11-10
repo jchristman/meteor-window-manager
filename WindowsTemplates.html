@@ -5,15 +5,15 @@
 </template>
 
 <template name="window">
-<div class="window{{#if isFocused}} focused{{/if}} " id={{id}} style="z-index: {{zIndex}}; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
+<div class="window{{#if isFocused}} focused{{/if}}{{#if isMinimized}} minimized{{/if}}{{#if isMaximized}} maximized{{/if}}" id={{id}} style="z-index: {{zIndex}}; position: absolute; top: {{top}}; left: {{left}}; width: {{width}}; height: {{height}};">
     <div class="windowtitlebar">
         <img src="/favicon.ico" width="16" height="16" class="titlebaricon">
         <div class="titlebartext">{{title}}</div>
         <div class="horizbuts">
-            <div class="minimizebut" title="minimize"></div>
-            <div class="restorebut" title="restore"></div>
-            <div class="maximizebut" title="maximize"></div>
-            <div class="closebut" title="close"></div>
+            <div class="minimizebut glyphicon glyphicon-minus" title="minimize"></div>
+            <div class="restorebut glyphicon glyphicon-share-alt" title="restore"></div>
+            <div class="maximizebut glyphicon glyphicon-plus" title="maximize"></div>
+            <div class="closebut glyphicon glyphicon-remove" title="close"></div>
         </div>
     </div>
     <div class="windowcontent panel with-nav-tabs panel-default">

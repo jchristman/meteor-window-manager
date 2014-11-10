@@ -91,13 +91,12 @@
 
 .horizbuts > * {
   float: left;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   border: 1px outset #9B9DC9;
-  margin: 3px 1px 0 0;
-  background: #ccc url(jquery.wm.default.icons.png) no-repeat scroll;
+  margin: 2px 1px 0 0;
+  background: #ccc;
   border-color: #bbb;
-  border-radius: 2px;  
 }
 
 .horizbuts > *:hover {
@@ -202,7 +201,7 @@
   color: white;
   font-weight: bold;
   left: 24px;
-  top: 0;
+  top: 2px;
   right: 0;
   bottom: 0;
   overflow: hidden;

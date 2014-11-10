@@ -39,6 +39,14 @@ if (Meteor.isClient) {
 
         isFocused : function() {
             return this.focused;
+        },
+
+        isMinimized : function() {
+            return this.minimized;
+        },
+
+        isMaximized : function() {
+            return this.maximized;
         }
     });
 

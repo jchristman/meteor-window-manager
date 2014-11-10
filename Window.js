@@ -1,8 +1,8 @@
 WMWindow = function(element, manager, data) {
-    console.log("Creating window");
     this.element = $(element);
     this.manager = manager;
-    this.id = data.id;
+    this.minimized = data.minimized;
+    this.maximized = data.maximized;
     this.init();
 }
 
@@ -23,6 +23,13 @@ WMWindow.prototype.init = function() {
     this.titleBarText = $('.titlebartext', this.element);
     this.titleBarText.onselectstart = this.cancel;
     this.titleBarText.unselectable = "on";
+    
+    /* ------- BUTTONS ------- */
+    this.buttons = this.titleBar.find('.horizbuts').mousedown(this.cancel).children();
+    this.buttons.eq(0).click(function() { self.minimize(this); return false; });
+    this.buttons.eq(1).click(function() { self.restore(this); return false; });
+    this.buttons.eq(2).click(function() { self.maximize(this); return false; });
+    this.buttons.eq(3).click(function() { self.close(this); return false; });
 
     /* ------- MOVER ------- */
     this.lastMouseX = 0;
@@ -63,7 +70,18 @@ WMWindow.prototype.init = function() {
         .mouseup(function() {
             return self.endResize();
         });
+    this.resizerProxyContainer = $('<div>').appendTo(this.resizerProxy);
     this.resizerProxy.onselectstart = this.cancel;
+
+    /* -------- SAVE -------- */
+    this.savedPosition = {
+        top : 0,
+        left : 0,
+        width : 0,
+        height : 0
+    }
+
+    /* ------- OTHER ------- */
 }
 
 WMWindow.prototype.startMove = function(event) {
@@ -73,36 +91,33 @@ WMWindow.prototype.startMove = function(event) {
     this.manager.grabFocus(this);
 
     this.moverBoxPosition = this.getWindowInfo();
-    this.moverBoxPosition.width = this.element.width() + 2;
-    this.moverBoxPosition.height = this.element.height() + 2;
     this.moverBoxPosition.bottom = this.moverBoxPosition.right = 'auto';
 
     this.moverProxyContainer.css(this.moverBoxPosition);
     this.moverProxy.appendTo($(document.body));
     this.moverProxy.show();
 
-    this.lastMouseY = event.pageY;
-    this.lastMouseX = event.pageX;
+    this.winOffsetY = event.pageY - this.moverBoxPosition.top;
+    this.winOffsetX = event.pageX - this.moverBoxPosition.left;
 
     return false;
 }
 
 WMWindow.prototype.updateMove = function(event) {
-    this.moverBoxPosition.top += event.pageY - this.lastMouseY;
-    this.moverBoxPosition.left += event.pageX - this.lastMouseX;
+    this.moverBoxPosition.top = event.pageY - this.winOffsetY;
+    this.moverBoxPosition.left = event.pageX - this.winOffsetX;
     
-    console.log(this.lastMouseX, this.lastMouseY, event.pageX, event.pageY);
-
-    this.lastMouseY = event.pageY;
-    this.lastMouseX = event.pageX;
     this.moverProxyContainer.css(this.moverBoxPosition);
 
     return false;
 }
 
 WMWindow.prototype.endMove = function() {
+    this.manager.setWindowPos(this, this.translatePosition(this.moverBoxPosition));
+
     this.moverProxy.hide();
     this.moverProxy.detach();
+
     return false;
 }
 
@@ -120,25 +135,83 @@ WMWindow.prototype.startResize = function(resizeHandle) {
 
     this.manager.grabFocus(this);
 
+    this.resizerBoxPosition = this.getWindowInfo();
+    this.resizerBoxPosition.right = this.resizerBoxPosition.left + this.resizerBoxPosition.width;
+    this.resizerBoxPosition.bottom = this.resizerBoxPosition.top + this.resizerBoxPosition.height;
+    this.resizerBoxPosition.width = this.resizerBoxPosition.width;
+    this.resizerBoxPosition.height = this.resizerBoxPosition.height;
+    
+    this.resizerProxyContainer.css(this.resizerBoxPosition);
+    this.resizerProxy.appendTo($(document.body));
+    this.resizerProxy.show();
+
+    this.winOffsetY = event.pageY - this.resizerBoxPosition.top;
+    this.winOffsetX = event.pageX - this.resizerBoxPosition.left;
+
     return false;
 }
 
 WMWindow.prototype.updateResize = function(event) {
+    if (this.resizeMask & R_MASK.TOP)           this.resizerBoxPosition.top = event.pageY;
+    else if (this.resizeMask & R_MASK.BOTTOM)   this.resizerBoxPosition.bottom = event.pageY;
+    if (this.resizeMask & R_MASK.LEFT)          this.resizerBoxPosition.left = event.pageX;
+    else if (this.resizeMask & R_MASK.RIGHT)    this.resizerBoxPosition.right = event.pageX;
+
+    this.resizerBoxPosition.height = Math.abs(this.resizerBoxPosition.top - this.resizerBoxPosition.bottom) + 2;
+    this.resizerBoxPosition.width = Math.abs(this.resizerBoxPosition.left - this.resizerBoxPosition.right) + 2;
+    this.resizerProxyContainer.css(this.resizerBoxPosition);
+
     return false;
 }
 
 WMWindow.prototype.endResize = function() {
+    this.manager.setWindowPos(this, this.translatePosition(this.resizerBoxPosition));
+
+    this.resizerProxy.hide();
+    this.resizerProxy.detach();
+
     return false;
 }
 
 WMWindow.prototype.click = function() {
+    console.log(this);
     this.manager.grabFocus(this);
+}
+
+WMWindow.prototype.minimize = function() {
+    this.manager.minimizeWindow(this);
+    this.minimized = true;
+    this.maximized = false;
+}
+
+WMWindow.prototype.restore = function() {
+    this.manager.restoreWindow(this);
+    this.minimized = false;
+    this.maximized = false;
+}
+
+WMWindow.prototype.maximize = function() {
+    this.manager.maximizeWindow(this);
+    this.minimized = false;
+    this.maximized = true;
+}
+
+WMWindow.prototype.close = function() {
+    this.manager.closeWindow(this);
+}   
+
+WMWindow.prototype.saveWindowInfo = function() {
+    this.savedPosition = this.getWindowInfo();
+}
+
+WMWindow.prototype.loadWindowInfo = function() {
+    return this.savedPosition;
 }
 
 WMWindow.prototype.getWindowInfo = function() {
     var info = this.element.offset();
-    info.width = this.element.width();
-    info.height = this.element.height();
+    info.width = this.element.width() + 2;
+    info.height = this.element.height() + 2;
 
     var parentInfo = this.element.parent().offset();
     info.parentTop = parentInfo.top;
@@ -162,6 +235,10 @@ WMWindow.prototype.translatePosition = function(pos) {
 
 WMWindow.prototype.cancel = function() {
     return false;
+}
+
+WMWindow.prototype.id = function() {
+    return this.element.attr('id');
 }
 
 var R_MASK = {

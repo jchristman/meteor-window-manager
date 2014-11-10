@@ -13,7 +13,6 @@ WindowManager.configure({
         {
             id : "test2", 
             title : "Test Title 2",
-            focused : false,
             top : "0%", 
             left : "50%", 
             width : "50%", 
@@ -23,7 +22,6 @@ WindowManager.configure({
         {
             id : "test3", 
             title : "Test Title 3",
-            focused : false,
             top : "50%", 
             left : "0%", 
             width : "100%", 
