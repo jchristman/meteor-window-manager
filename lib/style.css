@@ -475,3 +475,16 @@ The below is from http://bootsnipp.com/snippets/featured/panels-with-nav-tabs
     color: #fff; /* active text color */
     background-color: #a94442; /* active bg color */
 }
+
+/* -----------------------
+ * CUSTOM CSS
+ * ----------------------- */
+
+.tab-head {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

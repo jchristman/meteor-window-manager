@@ -16,15 +16,16 @@ Package.onUse(function(api) {
   api.use('jchristman:context-menu@1.0.0','client');
 
   api.addFiles([
-      'WindowManager.js',
-      'WMCollection.js',
+      'lib/WindowManager.js',
+      'collections/WMCollection.js',
   ],['client','server']);
 
   api.addFiles([
-      'WindowsTemplates.html',
-      'WindowsTemplates.js',
-      'Window.js',
-      'style.css'
+      'lib/Window.js',
+      'lib/style.css',
+      'lib/context-menus/tab-context-menu-config.js',
+      'lib/template/WindowsTemplates.html',
+      'lib/template/WindowsTemplates.js'
   ],['client']);
 
   api.export([
