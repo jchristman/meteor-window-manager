@@ -2,6 +2,7 @@
     position: relative;
     min-height: calc(100% - 37px);
     padding: 0px;
+    background: #FFF;
 }
 
 .tab-content {
@@ -49,7 +50,7 @@
   border-width: 0;
 }
 
-#resizerproxy,#moverproxy {
+#resizerproxy,#moverproxy,#paneDividerProxy {
   position: fixed;
   top: 0;
   left: 0;
@@ -59,7 +60,7 @@
   display: none;
 }
 
-#resizerproxy > div,#moverproxy > div {
+#resizerproxy > div,#moverproxy > div,#paneDividerProxy > div {
   position: absolute;
   border: 2px solid #666666;
   border-radius: 6px;
@@ -190,6 +191,12 @@
 .dest-pane-outline-1 { position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; border: 4px solid lime; display: none; }
 .dest-pane-outline-2 { position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; border: 4px solid lime; display: none; }
 
+.pane-container { position: absolute; height: 100%; width: 100%; background: #CCC; }
+.pane { position: absolute; }
+.pane-divider { position: absolute; background: #AAA; border-radius: 2px; }
+.pane-divider-vertical { top: 5%; height: 90%; width: 4px; cursor: ew-resize; }
+.pane-divider-horizontal { left: 5%; width: 90%; height: 4px; cursor: ns-resize; }
+
 .titlebaricon {
   position: absolute;
   left: 4px;
@@ -222,6 +229,10 @@ The below is from http://bootsnipp.com/snippets/featured/panels-with-nav-tabs
 */
 .panel {
     margin-bottom: 0px;
+}
+
+.panel-heading {
+    background: #EEE;
 }
 
 .panel.with-nav-tabs .panel-heading{

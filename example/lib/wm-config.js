@@ -26,7 +26,27 @@ WindowManager.configure({
             left : "0%", 
             width : "100%", 
             height : "50%",
-            zIndex : 1
+            zIndex : 1,
+            panes : {
+                split_orientation : 'vertical',
+                split_percent : '60%',
+                pane1 : {
+                    id : 'test3_pane1'
+                },
+                pane2 : {
+                    id : 'test3_pane2',
+                    panes : {
+                        split_orientation : 'horizontal',
+                        split_percent : '50%',
+                        pane1 : {
+                            id : 'test3_pane2.1'
+                        },
+                        pane2 : {
+                            id : 'test3_pane2.2'
+                        }
+                    }
+                }
+            }
         }
     ],
 
@@ -48,14 +68,14 @@ WindowManager.configure({
         {
             id : "test-tab3",
             title : "Test Tab 3",
-            window_id : "test3",
+            window_id : "test3_pane2.1",
             active : true,
             template : "test_template3"
         },
         {
             id : "test-tab4",
             title : "Test Tab 4",
-            window_id : "test1",
+            window_id : "test3_pane2.2",
             active : false,
             template : "test_template4"
         }
