@@ -54,28 +54,28 @@ WindowManager.configure({
         {
             id : "test-tab1",
             title : "Test Tab 1",
-            window_id : "test1",
+            pane_id : "test1",
             active : true,
             template : "test_template1"
         },
         {
             id : "test-tab2",
             title : "Test Tab 2",
-            window_id : "test2",
+            pane_id : "test2",
             active : true,
             template : "test_template2"
         },
         {
             id : "test-tab3",
             title : "Test Tab 3",
-            window_id : "test3_pane2.1",
+            pane_id : "test3_pane2.1",
             active : true,
             template : "test_template3"
         },
         {
             id : "test-tab4",
             title : "Test Tab 4",
-            window_id : "test3_pane2.2",
+            pane_id : "test3_pane2.2",
             active : false,
             template : "test_template4"
         }
