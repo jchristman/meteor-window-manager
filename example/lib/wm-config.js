@@ -78,12 +78,26 @@ WindowManager.configure({
             pane_id : "test3_pane2.2",
             active : false,
             template : "test_template4"
+        },
+        {
+            id : "test-tab5",
+            title : "Test Tab 5",
+            pane_id : "test3_pane1",
+            active : false,
+            template : "test_template5"
+        },
+        {
+            id : "test-tab6",
+            title : "Test Tab 6",
+            pane_id : "test3_pane1",
+            active : false,
+            template : "test_template6"
         }
     ],
 
     default_windows : [ "test1","test2","test3" ],
 
-    default_tabs : [ "test-tab1", "test-tab2", "test-tab3", "test-tab4" ]
+    default_tabs : [ "test-tab1", "test-tab2", "test-tab3", "test-tab4", "test-tab5", "test-tab6" ]
 });
 
 WindowManager.init({

@@ -23,7 +23,8 @@ Package.onUse(function(api) {
   api.addFiles([
       'lib/Window.js',
       'lib/style.css',
-      'lib/tab-context-menu-config.js',
+      'lib/context-menus/tab-context-menu-config.js',
+      'lib/context-menus/pane-context-menu-config.js',
       'lib/template/WindowsTemplates.html',
       'lib/template/WindowsTemplates.js'
   ],['client']);
