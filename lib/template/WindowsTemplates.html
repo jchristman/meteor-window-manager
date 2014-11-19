@@ -17,7 +17,9 @@
         </div>
     </div>
     <div class="windowcontent panel with-nav-tabs panel-default">
-        {{> panes}}
+        {{#with paneTree}}
+            {{> panes}}
+        {{/with}}
     </div>
     <div class="resizer-tl"></div>
     <div class="resizer-t"></div>

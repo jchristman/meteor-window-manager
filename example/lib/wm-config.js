@@ -17,7 +17,7 @@ WindowManager.configure({
             left : "50%", 
             width : "50%", 
             height : "50%",
-            zIndex : 2
+            zIndex : 2,
         },
         {
             id : "test3", 
@@ -27,22 +27,25 @@ WindowManager.configure({
             width : "100%", 
             height : "50%",
             zIndex : 1,
-            panes : {
-                split_orientation : 'vertical',
-                split_percent : '60%',
-                pane1 : {
-                    id : 'test3_pane1'
-                },
-                pane2 : {
-                    id : 'test3_pane2',
-                    panes : {
-                        split_orientation : 'horizontal',
-                        split_percent : '50%',
-                        pane1 : {
-                            id : 'test3_pane2.1'
-                        },
-                        pane2 : {
-                            id : 'test3_pane2.2'
+            pane_tree : {
+                id : "test3_pane",
+                panes : {
+                    split_orientation : 'vertical',
+                    split_percent : '60%',
+                    pane1 : {
+                        id : 'test3_pane1'
+                    },
+                    pane2 : {
+                        id : 'test3_pane2',
+                        panes : {
+                            split_orientation : 'horizontal',
+                            split_percent : '50%',
+                            pane1 : {
+                                id : 'test3_pane2.1'
+                            },
+                            pane2 : {
+                                id : 'test3_pane2.2'
+                            }
                         }
                     }
                 }
@@ -54,14 +57,14 @@ WindowManager.configure({
         {
             id : "test-tab1",
             title : "Test Tab 1",
-            pane_id : "test1",
+            pane_id : "test1_pane",
             active : true,
             template : "test_template1"
         },
         {
             id : "test-tab2",
             title : "Test Tab 2",
-            pane_id : "test2",
+            pane_id : "test2_pane",
             active : true,
             template : "test_template2"
         },
@@ -76,7 +79,7 @@ WindowManager.configure({
             id : "test-tab4",
             title : "Test Tab 4",
             pane_id : "test3_pane2.2",
-            active : false,
+            active : true,
             template : "test_template4"
         },
         {
@@ -90,7 +93,7 @@ WindowManager.configure({
             id : "test-tab6",
             title : "Test Tab 6",
             pane_id : "test3_pane1",
-            active : false,
+            active : true,
             template : "test_template6"
         }
     ],
