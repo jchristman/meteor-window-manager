@@ -13,7 +13,7 @@ Package.onUse(function(api) {
   api.use('templating', 'client');
   api.use('jquery','client');
   api.use('mizzao:jquery-ui','client')
-  api.use('jchristman:context-menu@1.1.2','client');
+  api.use('jchristman:context-menu@1.1.2_1','client');
 
   api.addFiles([
       'lib/WindowManager.js',
