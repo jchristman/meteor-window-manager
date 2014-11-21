@@ -13,7 +13,7 @@ Package.onUse(function(api) {
   api.use('templating', 'client');
   api.use('jquery','client');
   api.use('mizzao:jquery-ui','client')
-  api.use('jchristman:context-menu@1.1.2_1','client');
+  api.use('jchristman:context-menu@1.1.2_2','client');
 
   api.addFiles([
       'lib/WindowManager.js',
@@ -25,12 +25,14 @@ Package.onUse(function(api) {
       'lib/style.css',
       'lib/context-menus/tab-context-menu-config.js',
       'lib/context-menus/pane-context-menu-config.js',
+      'lib/context-menus/context-menu-funcs.js',
       'lib/template/WindowsTemplates.html',
       'lib/template/WindowsTemplates.js'
   ],['client']);
 
   api.export([
         'WindowManager',
-        'WMCollection'
+        'WMCollection',
+        'CONTEXT_MENU_FUNCS'
   ], ['client','server']); 
 });
