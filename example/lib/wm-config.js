@@ -96,13 +96,8 @@ WindowManager.configure({
             active : true,
             template : "test_template6"
         }
-    ],
-
-    default_windows : [ "test1","test2","test3" ],
-
-    default_tabs : [ "test-tab1", "test-tab2", "test-tab3", "test-tab4", "test-tab5", "test-tab6" ]
+    ]
 });
 
 WindowManager.init({
-    LOGGING_LEVEL : 0
 });
