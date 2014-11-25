@@ -8,7 +8,8 @@ WindowManager.configure({
             left : "0%", 
             width : "50%", 
             height : "50%",
-            zIndex : 3
+            zIndex : 3,
+            menubar : MENU_BAR
         },
         {
             id : "test2", 
@@ -17,7 +18,7 @@ WindowManager.configure({
             left : "50%", 
             width : "50%", 
             height : "50%",
-            zIndex : 2,
+            zIndex : 2
         },
         {
             id : "test3", 
@@ -27,6 +28,7 @@ WindowManager.configure({
             width : "100%", 
             height : "50%",
             zIndex : 1,
+            menubar : MENU_BAR,
             pane_tree : {
                 id : "test3_pane",
                 panes : {
