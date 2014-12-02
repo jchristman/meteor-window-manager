@@ -58,7 +58,7 @@
     ],
     [
       "jchristman:context-menu",
-      "1.1.2_2"
+      "1.1.2_4"
     ],
     [
       "jquery",
@@ -86,7 +86,7 @@
     ],
     [
       "mizzao:bootstrap-3",
-      "3.2.0"
+      "3.3.1"
     ],
     [
       "mizzao:build-fetcher",
