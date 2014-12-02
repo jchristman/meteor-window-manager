@@ -8,15 +8,15 @@ This library is a package designed to make desktop-like application in a web bro
 - Optional menubar
 - Resizable window pane system for splitting up a window
 - Awesome right click menus:
--- Split panes horizontally and vertically
--- Close panes
--- Open/Close/Move tabs
--- Rename tabs
+  - Split panes horizontally and vertically
+  - Close panes
+  - Open/Close/Move tabs
+  - Rename tabs
 - Draggable tabs
--- Drag tabs between windows/panes
--- Drag and drop to create new panes on the fly
+  - Drag tabs between windows/panes
+  - Drag and drop to create new panes on the fly
 
-One of the main features of this library is that it is a *database-defined UI layout*. What does that mean? What it means is that when you (the application developer) define the window layout structure, a default "Window Manager Profile" is created in the WMCollection. When a user logs in for the first time, a copy of this profile is created for them. Then, any UI changes (like dragging windows, moving tabs, etc) updates their profile to reflect the changes, then the reactive templating system takes care of rerendering everything.
+One of the main features of this library is that it is a **database-defined UI layout**. What does that mean? What it means is that when you (the application developer) define the window layout structure, a default "Window Manager Profile" is created in the WMCollection. When a user logs in for the first time, a copy of this profile is created for them. Then, any UI changes (like dragging windows, moving tabs, etc) updates their profile to reflect the changes, then the reactive templating system takes care of rerendering everything.
 
 What is the significance of this? First, a user can leave and come back and the UI will be the exact same. Second, if two people are logged in from two places, their UI's will always be perfectly synchronized! This opens up some cool avenues for collaborative applications. I've created an example of how to use this library that you can check out by running the following commands. Once it's running, visit http://localhost:3000/ and sign in (link in top left corner) to start playing around with windows!
 
@@ -44,7 +44,7 @@ After defining the windows (API explained below), you will need to include the "
 {{/if}}
 ```
 
-It is important to note that this library *requires* the accounts system from meteor. If noone logs, in then there is no Windows Profile and this will not work. A simple of way of exposing this is with an if currentUser template statement. The "windows" template is defined *by the library. Do not define your own "windows" template*.
+It is important to note that this library **requires** the accounts system from meteor. If noone logs, in then there is no Windows Profile and this will not work. A simple of way of exposing this is with an if currentUser template statement. The "windows" template is defined **by the library. Do not define your own "windows" template**.
 
 Configuring the Window Manager
 ==============================
@@ -55,7 +55,7 @@ WindowManager.configure(WINDOWS_OBJECT);
 WindowManager.init(SETTINGS);
 ```
 
-This needs be done in a directory *that will be run on both the server and the client*. My suggestion would be to place this in a file at lib/wm-config.js withing your meteor project directory. The SETTINGS object is optional and the valid settings are below.
+This needs be done in a directory **that will be run on both the server and the client**. My suggestion would be to place this in a file at lib/wm-config.js withing your meteor project directory. The SETTINGS object is optional and the valid settings are below.
 
 | Setting | Valid Values | Description |
 | ------- | :----------: | ----------- |
